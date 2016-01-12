@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">GiveMeNotes</string>
+    <string name="action_settings">Settings</string>
+    <string name="empty">Empty %s</string>
+    <string name="label_logout">Sign out</string>
+    <string name="title_notebook">Notebooks</string>
+</resources>
