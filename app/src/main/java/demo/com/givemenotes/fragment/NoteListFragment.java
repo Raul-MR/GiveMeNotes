@@ -1,5 +1,6 @@
 package demo.com.givemenotes.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -84,12 +85,12 @@ public class NoteListFragment extends Fragment {
 
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListNotesFragmentListener) {
-            mListener = (OnListNotesFragmentListener) context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof OnListNotesFragmentListener) {
+            mListener = (OnListNotesFragmentListener) activity;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(activity.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
     }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.evernote.client.android.EvernoteSession;
 import com.evernote.edam.type.Notebook;
@@ -37,6 +38,10 @@ public class ContainerNotebookActivity extends AppCompatActivity implements Note
         setContentView(R.layout.activity_main);
         if (!EvernoteSession.getInstance().isLoggedIn()) {
             return;
+        }
+        if (getSupportActionBar() == null) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
         }
         getSupportActionBar().setTitle(R.string.title_notebook);
         if (!isTaskRoot()) {

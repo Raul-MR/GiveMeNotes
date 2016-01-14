@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.evernote.client.android.EvernoteSession;
 import com.evernote.client.android.type.NoteRef;
+import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 
 import net.vrallev.android.task.TaskResult;
@@ -17,7 +19,10 @@ import java.util.List;
 import demo.com.givemenotes.R;
 import demo.com.givemenotes.fragment.EmptyFragment;
 import demo.com.givemenotes.fragment.NoteListFragment;
+import demo.com.givemenotes.fragment.ShowNoteDialogFragment;
 import demo.com.givemenotes.task.FindNotesTask;
+import demo.com.givemenotes.task.GetNoteContentTask;
+import demo.com.givemenotes.task.GetNoteHtmlTask;
 
 /**
  * Created by ramuñoz on 10/01/2016.
@@ -43,6 +48,10 @@ public class ContainerNoteActivity  extends AppCompatActivity implements NoteLis
             return;
         }
         mNotebook = (Notebook) getIntent().getSerializableExtra(KEY_NOTEBOOK);
+        if (getSupportActionBar() == null) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+        }
         getSupportActionBar().setTitle(mNotebook.getName());
         if (!isTaskRoot()) {
             //noinspection ConstantConditions
@@ -54,7 +63,7 @@ public class ContainerNoteActivity  extends AppCompatActivity implements NoteLis
 
     @Override
     public void onListFragmentInteraction(NoteRef item) {
-
+        new GetNoteContentTask(item).start(this, "content");
     }
 
     @TaskResult
@@ -70,5 +79,11 @@ public class ContainerNoteActivity  extends AppCompatActivity implements NoteLis
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         }
+    }
+
+    @TaskResult(id = "content")
+    public void onGetNoteContent(Note note) {
+        ShowNoteDialogFragment dialog = ShowNoteDialogFragment.create(note);
+        dialog.show(getFragmentManager(), ShowNoteDialogFragment.TAG);
     }
 }
