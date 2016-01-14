@@ -4,4 +4,8 @@
     <string name="empty">Empty %s</string>
     <string name="label_logout">Sign out</string>
     <string name="title_notebook">Notebooks</string>
+    <string name="note_title">title</string>
+    <string name="note_content">content</string>
+    <string name="create_new_note">Nueva nota</string>
+    <string name="create">Crear</string>
 </resources>

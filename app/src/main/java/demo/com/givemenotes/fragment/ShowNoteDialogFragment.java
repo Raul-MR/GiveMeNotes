@@ -30,23 +30,29 @@ public class ShowNoteDialogFragment extends DialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mNote = (Note) getArguments().getSerializable(KEY_NOTE);
+        }
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         //LayoutInflater inflater = getActivity().getLayoutInflater();
-        //View view = inflater.inflate(R.layout.fragment_show_note, null);
+        //View view = inflater.inflate(R.layout.dialog_base, null);
         //LinearLayout content = (LinearLayout) view.findViewById(R.id.content_node);
         //EditText title = (EditText) view.findViewById(R.id.title_txt);
         //EditText content = (EditText) view.findViewById(R.id.content_txt);
-        if (getArguments() != null) {
-            mNote = (Note) getArguments().getSerializable(KEY_NOTE);
-            if (mNote != null) {
-                builder.setTitle(mNote.getTitle());
-                builder.setMessage(mNote.getContent());
-                //title.setText(mNote.getTitle());
-                //content.setText(mNote.getContent());
-            }
+        if (mNote != null) {
+            builder.setTitle(mNote.getTitle());
+            builder.setMessage(mNote.getContent());
+            //title.setText(mNote.getTitle());
+            //content.setText(mNote.getContent());
         }
         //builder.setView(view);
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {

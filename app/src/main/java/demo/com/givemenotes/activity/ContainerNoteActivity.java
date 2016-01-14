@@ -3,9 +3,12 @@ package demo.com.givemenotes.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.evernote.client.android.EvernoteSession;
 import com.evernote.client.android.type.NoteRef;
@@ -30,8 +33,6 @@ import demo.com.givemenotes.task.GetNoteHtmlTask;
 public class ContainerNoteActivity  extends AppCompatActivity implements NoteListFragment.OnListNotesFragmentListener {
 
     private static String KEY_NOTEBOOK ="KEY_NOTEBOOK";
-    private static int MIN_NOTES = 0;
-    private static int MAX_NOTES = 20;
     private Notebook mNotebook;
 
     public static Intent createIntent(Context context, Notebook notebook) {
@@ -58,7 +59,10 @@ public class ContainerNoteActivity  extends AppCompatActivity implements NoteLis
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        new FindNotesTask(MIN_NOTES, MAX_NOTES, mNotebook).start(this);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, NoteListFragment.create(mNotebook))
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .commit();
     }
 
     @Override
@@ -74,10 +78,7 @@ public class ContainerNoteActivity  extends AppCompatActivity implements NoteLis
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         } else {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, NoteListFragment.create(noteRefList))
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .commit();
+
         }
     }
 
