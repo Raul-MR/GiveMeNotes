@@ -5,12 +5,17 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.evernote.edam.type.Note;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.StringReader;
 
 import demo.com.givemenotes.R;
 
@@ -43,24 +48,53 @@ public class ShowNoteDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        //LayoutInflater inflater = getActivity().getLayoutInflater();
-        //View view = inflater.inflate(R.layout.dialog_base, null);
-        //LinearLayout content = (LinearLayout) view.findViewById(R.id.content_node);
-        //EditText title = (EditText) view.findViewById(R.id.title_txt);
-        //EditText content = (EditText) view.findViewById(R.id.content_txt);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_base, null);
+        TextInputLayout title = (TextInputLayout) view.findViewById(R.id.textInputLayout_title);
+        TextInputLayout content = (TextInputLayout) view.findViewById(R.id.textInputLayout_content);
         if (mNote != null) {
             builder.setTitle(mNote.getTitle());
-            builder.setMessage(mNote.getContent());
-            //title.setText(mNote.getTitle());
-            //content.setText(mNote.getContent());
+            title.getEditText().setText(mNote.getTitle());
+            title.getEditText().setEnabled(false);
+            title.getEditText().setKeyListener(null);
+            title.setClickable(false);
+            title.setFocusable(false);
+            content.getEditText().setText(getContent(mNote.getContent()));
+            content.getEditText().setEnabled(false);
+            content.getEditText().setKeyListener(null);
+            content.setClickable(false);
+            content.setFocusable(false);
         }
-        //builder.setView(view);
+        builder.setView(view);
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
 
         return builder.create();
+    }
+
+    private String getContent(String contentXml) {
+        //contentXml = contentXml.replaceAll("\"", "");
+        String content = "";
+
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser xpp = factory.newPullParser();
+            xpp.setInput(new StringReader(contentXml));
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if(eventType == XmlPullParser.TEXT) {
+                    content = xpp.getText();
+                }
+                eventType = xpp.next();
+            }
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return content;
     }
 }

@@ -8,4 +8,5 @@
     <string name="note_content">content</string>
     <string name="create_new_note">Nueva nota</string>
     <string name="create">Crear</string>
+    <string name="create_new_notebook">Nuevo Notebook</string>
 </resources>
