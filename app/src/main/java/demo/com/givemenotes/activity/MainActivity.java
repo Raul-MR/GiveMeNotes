@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
             EvernoteSession.getInstance().logOut();
             finish();
             return true;
+        } else if (id == android.R.id.home) {
+            finish();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

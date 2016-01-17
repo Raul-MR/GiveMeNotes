@@ -1,6 +1,5 @@
 package demo.com.givemenotes.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,15 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.evernote.edam.type.Notebook;
-import demo.com.givemenotes.R;
-import demo.com.givemenotes.util.ParcelableUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import demo.com.givemenotes.R;
+import demo.com.givemenotes.util.ParcelableUtil;
+
 public class NotebookListFragment extends Fragment {
 
+    public static final String TAG = "NotebookListFragment";
     private static final String ARG_COLUMN_COUNT = "column-count";
     private static final String KEY_NOTEBOOK_LIST = "KEY_NOTEBOOK_LIST";
     private int mColumnCount = 1;
@@ -74,14 +75,13 @@ public class NotebookListFragment extends Fragment {
         return view;
     }
 
-
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof OnNotebookListFragmentListener) {
-            mListener = (OnNotebookListFragmentListener) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnNotebookListFragmentListener) {
+            mListener = (OnNotebookListFragmentListener) context;
         } else {
-            throw new RuntimeException(activity.toString()
+            throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
     }

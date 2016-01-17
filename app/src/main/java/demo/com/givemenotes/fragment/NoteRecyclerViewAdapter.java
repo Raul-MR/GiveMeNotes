@@ -7,10 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.evernote.client.android.type.NoteRef;
-import demo.com.givemenotes.R;
-import demo.com.givemenotes.fragment.NoteListFragment.OnListNotesFragmentListener;
 
 import java.util.List;
+
+import demo.com.givemenotes.R;
+import demo.com.givemenotes.fragment.NoteListFragment.OnListNotesFragmentListener;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link NoteRef} and makes a call to the

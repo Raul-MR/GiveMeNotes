@@ -7,10 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.evernote.edam.type.Notebook;
-import demo.com.givemenotes.R;
-import demo.com.givemenotes.fragment.NotebookListFragment.OnNotebookListFragmentListener;
 
 import java.util.List;
+
+import demo.com.givemenotes.R;
+import demo.com.givemenotes.fragment.NotebookListFragment.OnNotebookListFragmentListener;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Notebook} and makes a call to the

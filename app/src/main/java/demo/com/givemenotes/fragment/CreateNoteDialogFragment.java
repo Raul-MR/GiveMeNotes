@@ -1,19 +1,19 @@
 package demo.com.givemenotes.fragment;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.evernote.edam.type.Notebook;
+
 import demo.com.givemenotes.R;
-import demo.com.givemenotes.activity.ContainerNoteActivity;
+import demo.com.givemenotes.task.CreateNewNoteTask;
 
 /**
  * Created by ramuñoz on 14/01/2016.
@@ -21,10 +21,21 @@ import demo.com.givemenotes.activity.ContainerNoteActivity;
 public class CreateNoteDialogFragment extends DialogFragment {
 
     public static final String TAG = "CreateNoteDialogFragment";
+    private Notebook mNotebook;
+    private static final String KEY_NOTEBOOK = "KEY_NOTEBOOK";
+
+    public static CreateNoteDialogFragment create(Notebook notebook) {
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_NOTEBOOK, notebook);
+        CreateNoteDialogFragment fragment = new CreateNoteDialogFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mNotebook = (Notebook) getArguments().getSerializable(KEY_NOTEBOOK);
     }
 
     @Override
@@ -39,11 +50,17 @@ public class CreateNoteDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ((NoteListFragment) getParentFragment()).createNewNote(titleView.getEditText().getText().toString(),
-                        contentView.getEditText().getText().toString());
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        new CreateNewNoteTask(titleView.getEditText().getText().toString(),
+                                contentView.getEditText().getText().toString(), mNotebook)
+                                .start(getChildFragmentManager().findFragmentByTag(NoteListFragment.TAG));
+                        break;
+                }
             }
         };
         builder.setTitle(R.string.create_new_note)
+                .setView(view)
                 .setPositiveButton(R.string.create, onClickListener)
                 .setNegativeButton(android.R.string.cancel, onClickListener);
         return builder.create();
