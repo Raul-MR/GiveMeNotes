@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import demo.com.givemenotes.R;
-import demo.com.givemenotes.activity.ContainerNotebookActivity;
 import demo.com.givemenotes.task.CreateNewNotebookTask;
 
 /**
@@ -33,7 +32,7 @@ public class CreateNotebookDialogFragment extends DialogFragment {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         new CreateNewNotebookTask(titleView.getEditText().getText().toString())
-                                .start(new ContainerNotebookActivity());
+                                .start(getFragmentManager().findFragmentByTag(NotebookListFragment.TAG));
                         break;
                 }
             }

@@ -87,12 +87,12 @@ public class ContainerNoteActivity  extends AppCompatActivity implements NoteLis
     public void onFindNotes(List<NoteRef> noteRefList) {
         if (noteRefList == null || noteRefList.isEmpty()) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, EmptyFragment.create("Notes"))
+                    .replace(R.id.fragment_container, EmptyFragment.create("Notes"), NoteListFragment.TAG)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         } else {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, NoteListFragment.create(noteRefList, mNotebook))
+                    .replace(R.id.fragment_container, NoteListFragment.create(noteRefList, mNotebook), NoteListFragment.TAG)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         }

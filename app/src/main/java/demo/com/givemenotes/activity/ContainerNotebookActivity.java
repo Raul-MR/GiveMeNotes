@@ -53,7 +53,6 @@ public class ContainerNotebookActivity extends AppCompatActivity implements Note
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        new FindNotebooksTask().start(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +62,11 @@ public class ContainerNotebookActivity extends AppCompatActivity implements Note
                         CreateNotebookDialogFragment.TAG);
             }
         });
+        findNotebooks();
+    }
+
+    public void findNotebooks () {
+        new FindNotebooksTask().start(this);
     }
 
     @Override
@@ -74,20 +78,15 @@ public class ContainerNotebookActivity extends AppCompatActivity implements Note
     public void onFindNotebooks(List<Notebook> notebooks) {
         if (notebooks == null || notebooks.isEmpty()) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, EmptyFragment.create("notebooks"))
+                    .replace(R.id.fragment_container, EmptyFragment.create("notebooks"), NotebookListFragment.TAG)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         } else {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, NotebookListFragment.create(notebooks))
+                    .replace(R.id.fragment_container, NotebookListFragment.create(notebooks), NotebookListFragment.TAG)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();
         }
-    }
-
-    @TaskResult
-    public void onCreateNewNotebook(Notebook notebook) {
-        new FindNotebooksTask().start(this);
     }
 
     @Override

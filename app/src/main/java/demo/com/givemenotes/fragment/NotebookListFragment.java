@@ -12,11 +12,14 @@ import android.view.ViewGroup;
 
 import com.evernote.edam.type.Notebook;
 
+import net.vrallev.android.task.TaskResult;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import demo.com.givemenotes.R;
+import demo.com.givemenotes.activity.ContainerNotebookActivity;
 import demo.com.givemenotes.util.ParcelableUtil;
 
 public class NotebookListFragment extends Fragment {
@@ -73,6 +76,13 @@ public class NotebookListFragment extends Fragment {
             recyclerView.setAdapter(new NotebooksRecyclerViewAdapter(notebookList, mListener));
         }
         return view;
+    }
+
+    @TaskResult
+    public void onCreateNewNotebook(Notebook notebook) {
+        if (notebook != null) {
+            ((ContainerNotebookActivity) getActivity()).findNotebooks();
+        }
     }
 
     @Override

@@ -54,7 +54,7 @@ public class CreateNoteDialogFragment extends DialogFragment {
                     case DialogInterface.BUTTON_POSITIVE:
                         new CreateNewNoteTask(titleView.getEditText().getText().toString(),
                                 contentView.getEditText().getText().toString(), mNotebook)
-                                .start(getChildFragmentManager().findFragmentByTag(NoteListFragment.TAG));
+                                .start(getFragmentManager().findFragmentByTag(NoteListFragment.TAG));
                         break;
                 }
             }

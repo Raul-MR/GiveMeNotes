@@ -8,7 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.evernote.edam.type.Note;
+
+import net.vrallev.android.task.TaskResult;
+
 import demo.com.givemenotes.R;
+import demo.com.givemenotes.activity.ContainerNoteActivity;
 
 
 public class EmptyFragment extends Fragment {
@@ -30,5 +35,12 @@ public class EmptyFragment extends Fragment {
         TextView textView = (TextView) view.findViewById(R.id.textView);
         textView.setText(getString(R.string.empty, getArguments().getString(KEY_TEXT)));
         return view;
+    }
+
+    @TaskResult
+    public void onCreateNewNote(Note note) {
+        if (note != null) {
+            ((ContainerNoteActivity) getActivity()).findNoteList();
+        }
     }
 }
